@@ -1,0 +1,12 @@
+.app-wrap {
+  background-color: var(--bg);
+  min-height: 100vh;
+  :global {
+    .app-page {
+      padding-top: 95px;
+      &.overview-page {
+        padding-top: 0;
+      }
+    }
+  }
+}
