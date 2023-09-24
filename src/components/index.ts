@@ -1,4 +1,4 @@
-import AppHeader from './AppHeader'
-import AppFooter from './AppFooter'
+import AppHeader from "./AppHeader";
+import AppFooter from "./AppFooter";
 
-export {AppHeader,AppFooter}
+export { AppHeader, AppFooter };
