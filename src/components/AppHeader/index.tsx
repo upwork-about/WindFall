@@ -9,7 +9,10 @@ const AppHeader: React.FC = () => {
   const { openModal } = useModalContext();
   return (
     <div className={style["app-header"]}>
-      <div className="logo-wrap"></div>
+      <div className="logo-wrap">
+        <img src="/img/common/logo.png" alt="" />
+        <h3>WINDFALL</h3>
+      </div>
       <div className="connect-wrap">
         {isConnected ? (
           <div>{address}</div>

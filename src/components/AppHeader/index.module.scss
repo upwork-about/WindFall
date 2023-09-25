@@ -1,0 +1,31 @@
+.app-header{
+    @include flex-row;
+    justify-content: space-between;
+    padding-top: 52px;
+    width: 1228px;
+    margin: 0 auto;
+    @include md {
+        width: 100%;
+        padding: 39px 28px 0;
+     }
+    :global{
+        .logo-wrap{
+            img{
+                margin-left: 37px;
+                @include md {
+                    margin-left: 25px;
+                    width: 12px;
+                 }
+            }
+            h3{
+                color: var(--font-color-h1);
+                font-size: 37px;
+                font-weight: 600;
+                letter-spacing: 6.714px;
+                @include md {
+                    font-size: 22px;
+                }
+            }
+        }
+    }
+}

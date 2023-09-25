@@ -3,7 +3,10 @@
   min-height: 100vh;
   :global {
     .app-page {
-      padding-top: 95px;
+      padding-top: 106px;
+      @include md {
+        padding-top: 77px;
+      }
       &.overview-page {
         padding-top: 0;
       }
