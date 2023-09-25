@@ -58,12 +58,12 @@ const CantoDeposit: React.FC = () => {
               </div>
             </div>
             <div className="bottom-wrap">
-              <div className="left-wrap">
+              <button className="left-wrap">
               {item.btnText}
-              </div>
-              <div className="right-wrap">
+              </button>
+              <button className="right-wrap">
               {item.redText}
-              </div>
+              </button>
             </div>
           </div>
         )

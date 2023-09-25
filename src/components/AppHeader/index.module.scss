@@ -1,6 +1,7 @@
 .app-header{
     @include flex-row;
     justify-content: space-between;
+    align-items: flex-end;
     padding-top: 52px;
     width: 1228px;
     margin: 0 auto;

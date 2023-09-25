@@ -56,30 +56,64 @@ const CantoDeposit: React.FC = () => {
     },
     {
       windfall: "CANTO",
-      type: "SUPER",
-      date: "June 24,2023",
-      nft: "C-28",
-      amount: "250",
+      type: "DAILY",
+      date: "June 23,2023",
+      nft: "C-31",
+      amount: "46",
       amountUnit: "CANTO",
+    },
+    {
+      windfall: "ETHEREUM",
+      type: "DAILY",
+      date: "June 23,2023",
+      nft: "E-208",
+      amount: ".0002",
+      amountUnit: "ETH",
+    },
+    {
+      windfall: "MATIC",
+      type: "DAILY",
+      date: "June 23,2023",
+      nft: "M-77",
+      amount: "9",
+      amountUnit: "MATIC",
     },
     {
       windfall: "CANTO",
-      type: "SUPER",
-      date: "June 24,2023",
-      nft: "C-28",
-      amount: "250",
+      type: "DAILY",
+      date: "June 22,2023",
+      nft: "C-445",
+      amount: "66",
       amountUnit: "CANTO",
     },
+    {
+      windfall: "ETHEREUM",
+      type: "DAILY",
+      date: "June 22,2023",
+      nft: "E-13",
+      amount: ".000t",
+      amountUnit: "ETH",
+    },
+    {
+      windfall: "MATIC",
+      type: "DAILY",
+      date: "June 22,2023",
+      nft: "M-909",
+      amount: "9",
+      amountUnit: "MATIC",
+    },
   ];
+
   const columns = [
     {
       title: "WINDFALL",
+      align:"left" as const,
       render: (text: string, record: any, index: number) => {
         return (
           <div className="column-windfall">
-            <div>
+            <div className="element">
               <span className={`${record.windfall.toLowerCase()}`}>{record.windfall}</span>
-              <span>{record.type}</span>
+              <span className={`${record.type.toLowerCase()}`}>{record.type}</span>
             </div>
             {responsive.md ? null : <div>{record.date}</div>}
           </div>
@@ -88,33 +122,55 @@ const CantoDeposit: React.FC = () => {
     },
     {
       title: "NFT",
-
       render: (text: string, record: any, index: number) => {
-        return <div className="column-nft">{record.nft}</div>;
+        return (
+          <div className="column-nft">
+             <div className={`${record.nft.toLowerCase()}`}>{record.nft}</div>
+          </div>
+        )
       },
     },
     {
       title: "AMOUNT",
-
+      align:"right" as const,
       render: (text: string, record: any, index: number) => {
+        const mapNumberToClassName = (number:Number) => {
+          const amount = parseFloat(record.amount);
+          if (amount === 250 || amount === 0.01 || amount === 123) {
+            return 'yellow';
+          }
+          return '';
+        };
+    
+        const amountClassName = mapNumberToClassName(record.amount);
         return (
           <div className="column-amount">
-            <span>{record.amount}</span>
-            <span>{record.amountUnit}</span>
+                   <span className={amountClassName}>{record.amount}</span>
+            <span className={`${record.amountUnit.toLowerCase()}`}>{record.amountUnit}</span>
           </div>
         );
       },
     },
   ];
   if (responsive.md) {
-    columns.splice(1, 0, {
+    columns.splice(1, 0,
+      {
       title: "DATE",
-
       render: (text: string, record: any, index: number) => {
-        return <div className="column-date">{record.date}</div>;
+        const isYellowDate = record.date === "June 24,2023";
+        const dateClassName = isYellowDate ? 'yellow' : '';
+        return(
+          <div className="column-date">
+             <div className={`${dateClassName}`}>{record.date}</div>
+          </div>
+        )
       },
-    });
+    }
+
+    );
   }
+
+  
   return (
     <div className="home-recent-windfalls">
       <div className="con-main-wrap">

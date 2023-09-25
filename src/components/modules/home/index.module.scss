@@ -43,7 +43,7 @@
         }
         .token-table {
           margin: 0 auto;
-          width: 807px;
+          width: 808px;
           padding: 52px 50px 52px 66px;
           border-radius: 10px;
           border: 1px solid rgba(255, 255, 255, 0.3);
@@ -416,6 +416,14 @@
         h3 {
           font-size: 40px;
           text-align: center;
+          @include md{
+            font-size: 22px;
+          }
+        }
+        hr{
+          @include md{
+            display: none;
+          }
         }
 
         .table-list {
@@ -426,13 +434,74 @@
             border-radius: 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 30px;
-          }
-          .column-windfall {
-            color: red;
-            .canto {
-              color: blue;
+            font-size: 20px;
+            @include md{
+              font-size: 14px;
             }
           }
+          .column-windfall {
+            .element{
+              font-size: 20px;
+            @include flex-row;
+            gap: 5px;
+           @include md{
+            font-size: 12px;
+           }
+            .canto {
+              color:var(--font-color-p3);
+            }
+            .etgereum {
+              color: #3e8fff;
+            }
+            .matic{
+              color: #A46DFF;
+            }
+            .super{
+              color: #FBFF3E;
+            }
+            }
+          }
+          .column-date{
+            font-size: 20px;
+            @include md{
+              font-size: 12px;
+             }
+            .yellow{
+              color: #FBFF3E;
+            }
+          }
+
+            .column-amount{
+              font-size: 20px;
+              @include flex-row;
+              gap: 5px;
+              @include md{
+                font-size: 12px;
+               }
+              .canto{
+                color: var(--font-color-p3);
+              }
+              .eth{
+                color: #3e8fff;
+              }
+              .matic{
+                color: #A46DFF;
+              }
+              .yellow{
+                color: #FBFF3E;
+              }
+            }
+            .column-nft{
+              font-size: 20px;
+              @include md{
+                font-size: 12px;
+               }
+              .c-28,
+              .e-101,
+              .m-88{
+               color: #FBFF3E;
+              }
+            }
         }
       }
     }

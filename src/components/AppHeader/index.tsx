@@ -17,7 +17,7 @@ const AppHeader: React.FC = () => {
         {isConnected ? (
           <div>{address}</div>
         ) : (
-          <Button onClick={() => openModal({ dom: <ConnectWalletModal /> })}>Connect</Button>
+          <Button size="large" ghost onClick={() => openModal({ dom: <ConnectWalletModal /> })}>Connect</Button>
         )}
       </div>
     </div>
