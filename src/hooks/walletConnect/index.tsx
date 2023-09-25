@@ -1,0 +1,133 @@
+import React, { createContext, FC, useCallback, useContext, useMemo } from "react";
+
+import { ChainId } from "@/config";
+import {
+  useNetwork,
+  useAccount,
+  useSwitchNetwork,
+  createConfig,
+  useDisconnect,
+  usePublicClient,
+  useWalletClient,
+  configureChains,
+  WagmiConfig,
+} from "wagmi";
+
+import "@rainbow-me/rainbowkit/styles.css";
+
+import { mainnet, polygon, optimism, arbitrum, base, zora, goerli } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+import { RainbowKitProvider, darkTheme, Theme, connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { rainbowWallet, walletConnectWallet, metaMaskWallet, coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+import merge from "lodash/merge";
+
+interface WalletContextType {
+  chainId?: number;
+  account?: string;
+  isConnected: boolean;
+
+  // the switch chain method we should use across the app
+  switchChain: (chainId: ChainId) => { error: string } | undefined;
+  disconnect: () => void;
+  /**
+   * the signer, which WebProvider.getSigner returns
+   * A Signer is a class which (usually) in some way directly or indirectly has access to a private key,
+   * which can sign messages and transactions to authorize the network to charge your account ether to perform operations.
+   */
+  signer?: any;
+  /**
+   * whether the app has tried to connect to the wallet.
+   * Note: tried does not mean the user is logged in, nor does it mean the wallet is connected.
+   * It just means the action of connected to the wallet has been performed.
+   * It can indicate the state of the app more clearly:
+   * tried but not active: the wallet might be locked. Or the window.ethereum is not installed.
+   * tried and active: the wallet is connected.
+   * connecting to the wallet also does not mean the user is logged in.
+   * because login is an request to our backend server, while connecting to the wallet is not.
+   *
+   * true: has tried to connected to the wallet
+   * false: hasn't tried
+   */
+  provider: any;
+}
+export const WalletContext = createContext<WalletContextType>({} as WalletContextType);
+
+const error = { error: "Your wallet needs to switch networks manually." };
+type AppWebProviderProps = {
+  children: React.ReactNode;
+};
+
+const { chains, publicClient, webSocketPublicClient } = configureChains([goerli], [publicProvider()]);
+
+const projectId = "acd532ccb5b241a06e27ffc22bcd4a3b";
+
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      metaMaskWallet({ chains, projectId }),
+      walletConnectWallet({ chains, projectId }),
+      coinbaseWallet({ appName: "Bluez", chains }),
+      rainbowWallet({ chains, projectId }),
+    ],
+  },
+]);
+
+const config = createConfig({
+  autoConnect: true,
+  connectors: connectors,
+  publicClient,
+  webSocketPublicClient,
+});
+
+const rainbowKitTheme = merge(darkTheme(), {
+  blurs: {
+    modalOverlay: "blur(10px)",
+  },
+} as Theme);
+
+export const WalletProvider: FC<AppWebProviderProps> = ({ children }) => {
+  return (
+    <WagmiConfig config={config}>
+      <RainbowKitProvider
+        theme={rainbowKitTheme}
+        modalSize="compact"
+        chains={chains}>
+        <WalletProviderContent>{children}</WalletProviderContent>
+      </RainbowKitProvider>
+    </WagmiConfig>
+  );
+};
+export const WalletProviderContent: FC<AppWebProviderProps> = ({ children }) => {
+  const { address, isConnected } = useAccount();
+  const { switchNetwork } = useSwitchNetwork();
+  const { chain } = useNetwork();
+  const { data: signer, isError } = useWalletClient();
+  const { disconnect } = useDisconnect();
+  const provider = usePublicClient();
+
+  const switchChain = (chainId: ChainId) => {
+    try {
+      switchNetwork?.(chainId);
+      return;
+    } catch (e: any) {
+      return error;
+    }
+  };
+  const contextValue: WalletContextType = {
+    chainId: chain?.id,
+    isConnected,
+    account: address?.toLowerCase(),
+    signer,
+    switchChain,
+    disconnect,
+    provider,
+  };
+
+  return <WalletContext.Provider value={contextValue}>{children}</WalletContext.Provider>;
+};
+
+export const useWallet = () => {
+  return useContext(WalletContext);
+};
