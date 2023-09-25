@@ -91,7 +91,7 @@ const CantoDeposit: React.FC = () => {
       type: "DAILY",
       date: "June 22,2023",
       nft: "E-13",
-      amount: ".000t",
+      amount: ".0005",
       amountUnit: "ETH",
     },
     {
@@ -99,7 +99,7 @@ const CantoDeposit: React.FC = () => {
       type: "DAILY",
       date: "June 22,2023",
       nft: "M-909",
-      amount: "9",
+      amount: "8",
       amountUnit: "MATIC",
     },
   ];
