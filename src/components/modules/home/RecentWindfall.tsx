@@ -78,7 +78,7 @@ const CantoDeposit: React.FC = () => {
         return (
           <div className="column-windfall">
             <div>
-              <span>{record.windfall}</span>
+              <span className={`${record.windfall.toLowerCase()}`}>{record.windfall}</span>
               <span>{record.type}</span>
             </div>
             {responsive.md ? null : <div>{record.date}</div>}
@@ -117,16 +117,16 @@ const CantoDeposit: React.FC = () => {
   }
   return (
     <div className="home-recent-windfalls">
-    <div className="con-main-wrap">
-    <h3>Recent Windfalls</h3>
-    <div className="hr"></div>
-    <div className="table-list">
-    <TableList
-        columns={columns}
-        dataSource={dataSource}
-      />
-    </div>
-    </div>
+      <div className="con-main-wrap">
+        <h3>Recent Windfalls</h3>
+        <div className="hr"></div>
+        <div className="table-list">
+          <TableList
+            columns={columns}
+            dataSource={dataSource}
+          />
+        </div>
+      </div>
     </div>
   );
 };
