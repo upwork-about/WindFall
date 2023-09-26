@@ -15,11 +15,11 @@ import {
 
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { mainnet, polygon, optimism, arbitrum, base, zora, goerli } from "wagmi/chains";
+import { canto } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import { RainbowKitProvider, darkTheme, Theme, connectorsForWallets } from "@rainbow-me/rainbowkit";
-import { rainbowWallet, walletConnectWallet, metaMaskWallet, coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+import { rainbowWallet, walletConnectWallet, injectedWallet, coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
 import merge from "lodash/merge";
 
 interface WalletContextType {
@@ -58,18 +58,19 @@ type AppWebProviderProps = {
   children: React.ReactNode;
 };
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([goerli], [publicProvider()]);
+const { chains, publicClient, webSocketPublicClient } = configureChains([canto], [publicProvider()]);
 
-const projectId = "acd532ccb5b241a06e27ffc22bcd4a3b";
+// const projectId = "acd532ccb5b241a06e27ffc22bcd4a3b";
 
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
-      metaMaskWallet({ chains, projectId }),
-      walletConnectWallet({ chains, projectId }),
-      coinbaseWallet({ appName: "Bluez", chains }),
-      rainbowWallet({ chains, projectId }),
+      injectedWallet({ chains }),
+      // metaMaskWallet({ chains, projectId }),
+      // walletConnectWallet({ chains, projectId }),
+      // coinbaseWallet({ appName: "Bluez", chains }),
+      // rainbowWallet({ chains, projectId }),
     ],
   },
 ]);
