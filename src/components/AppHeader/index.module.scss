@@ -5,7 +5,6 @@
   padding-top: 52px;
   width: 1228px;
   margin: 0 auto;
-  color: var(--font-color-h1);
   @include md {
     width: 100%;
     padding: 39px 28px 0;
@@ -26,6 +25,7 @@
         letter-spacing: 6.714px;
         @include md {
           font-size: 22px;
+          letter-spacing: 4.14px;
         }
       }
     }

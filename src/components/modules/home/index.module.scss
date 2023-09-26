@@ -6,17 +6,6 @@
   }
 
   :global {
-    .hr {
-      margin: 31px auto 0;
-      width: 334px;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.4);
-      @include md {
-        margin-top: 20px;
-        width: 200px;
-      }
-    }
-
     .home-token-table {
       margin-bottom: -169px;
 
@@ -187,31 +176,32 @@
 
             &:nth-child(1) {
               top: 191px;
-              left: 23px;
+              left: 40px;
             }
 
             &:nth-child(2) {
               top: 381px;
+              left: 17px;
             }
 
             &:nth-child(3) {
               top: 511px;
-              left: 37px;
+              left: 54px;
             }
 
             &:nth-child(4) {
-              top: 214px;
-              right: 136px;
+              top: 210px;
+              right: 101px;
             }
 
             &:nth-child(5) {
               top: 334px;
-              right: -20px;
+              right: -35px;
             }
 
             &:nth-child(6) {
               top: 536px;
-              right: 94.6px;
+              right: 60px;
             }
           }
         }
@@ -237,6 +227,16 @@
           color: var(--font-color-p3);
         }
       }
+      .hr {
+        margin: 31px auto 0;
+        width: 334px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.4);
+        @include md {
+          margin-top: 20px;
+          width: 200px;
+        }
+      }
 
       .card-list {
         width: 1090px;
@@ -260,15 +260,6 @@
           @include md {
             padding: 28px 35px 42px 20px;
             font-size: 12px;
-          }
-          &:nth-child(3) {
-            .bottom-wrap {
-              .left-wrap {
-                color: var(--font-color-p3);
-                border: 1px solid rgba(1, 225, 134, 0.3);
-                background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-              }
-            }
           }
 
           .top-wrap {
@@ -312,6 +303,9 @@
                 @include md {
                   width: 6px;
                   height: 6px;
+                }
+                &.err{
+                  background: #7b7b7b;
                 }
               }
 
@@ -375,6 +369,11 @@
               width: 287px;
               border-radius: 10px;
               background: linear-gradient(180deg, #01e186 0%, #01482b 100%);
+              &.err{
+                color: var(--font-color-p3);
+                border: 1px solid rgba(1, 225, 134, 0.3);
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+              }
               @include md {
                 width: 287px;
               }

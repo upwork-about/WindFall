@@ -1,6 +1,9 @@
 .app-footer {
        
   padding-bottom: 132px;
+  @include md{
+    padding: 88px;
+  }
   :global {
       .con-main-wrap {
         @include flex-row;
@@ -30,7 +33,10 @@
             .logo{
               position: absolute;
               top: -15px;
-              left: 28px;
+              left: 37px;
+              @include md{
+                left: 28px;
+              }
             }
           }
        

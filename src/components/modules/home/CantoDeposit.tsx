@@ -2,7 +2,7 @@ import React from "react";
 const CantoDeposit: React.FC = () => {
   const list = [
     {
-      rightStatus: "Live",
+      rightStatus: true,
       num: 50.12,
       percent: "1.43%",
       code: "C-394",
@@ -10,7 +10,7 @@ const CantoDeposit: React.FC = () => {
       redText: "Unstake",
     },
     {
-      rightStatus: "Live",
+      rightStatus: true,
       num: 792.1,
       percent: "1.43%",
       code: "C-474",
@@ -18,7 +18,7 @@ const CantoDeposit: React.FC = () => {
       redText: "Unstake",
     },
     {
-      rightStatus: "INACTIVE",
+      rightStatus: false,
       num: 14.33,
       percent: "",
       code: "C-902",
@@ -47,8 +47,8 @@ const CantoDeposit: React.FC = () => {
                   <p>CANTO</p>
                 </div>
                 <div className="right-wrap">
-                  <span></span>
-                  <p>{item.rightStatus}</p>
+                  <span className={item.rightStatus ? "" : "err"}></span>
+                  <p>{item.rightStatus ? "Live" : "INACTIVE"}</p>
                 </div>
               </div>
               <div className="cen-wrap">
@@ -59,8 +59,8 @@ const CantoDeposit: React.FC = () => {
                 <div className="right-wrap">{item.code}</div>
               </div>
               <div className="bottom-wrap">
-                <button className="left-wrap">{item.btnText}</button>
-                <button className="right-wrap">{item.redText}</button>
+                <div className={`left-wrap ${item.rightStatus ? "" : "err"}`}>{item.btnText}</div>
+                <div className="right-wrap">{item.redText}</div>
               </div>
             </div>
           );
