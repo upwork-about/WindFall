@@ -1,12 +1,10 @@
-import { goerli, sepolia } from "wagmi/chains";
+import { canto } from "wagmi/chains";
 
 import type { NetworkConfig } from "./types";
 
 export enum ChainId {
-  Shibuya = 81,
-  Astar = 592,
-  Goerli = 5,
-  Sepolia = 11155111,
+  CantoTestnet = 7701,
+  Canto = 7700,
 }
 
 export function isSupportChain(chainId: number): chainId is ChainId {
@@ -14,55 +12,36 @@ export function isSupportChain(chainId: number): chainId is ChainId {
 }
 
 export const CHAIN_CONFIG: Record<ChainId, NetworkConfig> = {
-  [ChainId.Shibuya]: {
-    id: 81,
-    name: "Shibuya",
-    network: "shibuya",
+  [ChainId.CantoTestnet]: {
+    id: 7701,
+    name: "Canto Testnet",
+    network: "canto",
     nativeCurrency: {
-      name: "Shibuya",
-      symbol: "SBY",
+      name: "Canto",
+      symbol: "CANTO",
       decimals: 18,
     },
     rpcUrls: {
       default: {
-        http: [`https://evm.shibuya.astar.network`],
-        webSocket: [`wss://shibuya.public.blastapi.io`],
+        http: [`https://canto-testnet.plexnode.wtf`],
       },
       public: {
-        http: [`https://evm.shibuya.astar.network`],
-        webSocket: [`wss://shibuya.public.blastapi.io`],
+        http: [`https://canto-testnet.plexnode.wtf`],
       },
+    },
+    address: {
+      tokenProvider: "0xA631523aC0Aa65dDB8E3a13eBc5B00A66C0CC8d7",
+      stakeProvider: "0xC06940e81e6337344E16d67DDb33dD6144eBe2CE",
+      turnstile: "0xe371237E2d8Acf58356b8Da263ad952528CDfd8b",
     },
     testnet: true,
   },
 
-  [ChainId.Astar]: {
-    id: 592,
-    name: "Astar",
-    network: "astar",
-    nativeCurrency: {
-      name: "ASTR",
-      symbol: "ASTR",
-      decimals: 18,
-    },
-
-    rpcUrls: {
-      default: {
-        http: ["https://astar.api.onfinality.io/public"],
-        webSocket: [`wss://astar.api.onfinality.io/public-ws`],
-      },
-      public: {
-        http: ["https://astar.api.onfinality.io/public"],
-        webSocket: [`wss://astar.api.onfinality.io/public-ws`],
-      },
-    },
-    blockExplorers: {
-      default: {
-        name: "subscan",
-        url: "https://astar.subscan.io/",
-      },
+  [ChainId.Canto]: {
+    ...canto,
+    address: {
+      tokenProvider: "0xA631523aC0Aa65dDB8E3a13eBc5B00A66C0CC8d7",
+      stakeProvider: "0xEB0a4E999DC0AB2cFD1b39202B3BD6973c0989DC",
     },
   },
-  [ChainId.Goerli]: goerli,
-  [ChainId.Sepolia]: sepolia,
 };

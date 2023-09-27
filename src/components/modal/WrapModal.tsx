@@ -1,3 +1,4 @@
+"use client";
 import { useModalContext } from "./useModalContext";
 import { useMyResponsive } from "@/hooks/useMyResponsive";
 import style from "./index.module.scss";
@@ -30,6 +31,7 @@ const WrapModal: React.FC<{
     wrapProps = {
       footer: null,
       wrapClassName: wrapProps.className,
+      className: wrapProps.className,
       width: modalProps?.width,
       onCancel: wrapProps.onClose,
       open: wrapProps.open,

@@ -1,4 +1,4 @@
-import { FC, useEffect, ReactElement, ReactNode } from "react";
+import { FC, ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import { PageStaticProps } from "@/types/page";

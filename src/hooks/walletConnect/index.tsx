@@ -1,6 +1,6 @@
 import React, { createContext, FC, useCallback, useContext, useMemo } from "react";
 
-import { ChainId } from "@/config";
+import { CHAIN_CONFIG, ChainId, isDev } from "@/config";
 import {
   useNetwork,
   useAccount,
@@ -18,8 +18,14 @@ import "@rainbow-me/rainbowkit/styles.css";
 import { canto } from "wagmi/chains";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import { RainbowKitProvider, darkTheme, Theme, connectorsForWallets } from "@rainbow-me/rainbowkit";
-import { rainbowWallet, walletConnectWallet, injectedWallet, coinbaseWallet } from "@rainbow-me/rainbowkit/wallets";
+import { RainbowKitProvider, lightTheme, Theme, connectorsForWallets } from "@rainbow-me/rainbowkit";
+import {
+  rainbowWallet,
+  walletConnectWallet,
+  injectedWallet,
+  coinbaseWallet,
+  metaMaskWallet,
+} from "@rainbow-me/rainbowkit/wallets";
 import merge from "lodash/merge";
 
 interface WalletContextType {
@@ -58,19 +64,22 @@ type AppWebProviderProps = {
   children: React.ReactNode;
 };
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([canto], [publicProvider()]);
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  isDev ? [CHAIN_CONFIG[ChainId.CantoTestnet]] : [canto],
+  [publicProvider()]
+);
 
-// const projectId = "acd532ccb5b241a06e27ffc22bcd4a3b";
+const projectId = "acd532ccb5b241a06e27ffc22bcd4a3b";
 
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
     wallets: [
       injectedWallet({ chains }),
-      // metaMaskWallet({ chains, projectId }),
-      // walletConnectWallet({ chains, projectId }),
-      // coinbaseWallet({ appName: "Bluez", chains }),
-      // rainbowWallet({ chains, projectId }),
+      metaMaskWallet({ chains, projectId }),
+      walletConnectWallet({ chains, projectId }),
+      coinbaseWallet({ appName: "Bluez", chains }),
+      rainbowWallet({ chains, projectId }),
     ],
   },
 ]);
@@ -82,7 +91,7 @@ const config = createConfig({
   webSocketPublicClient,
 });
 
-const rainbowKitTheme = merge(darkTheme(), {
+const rainbowKitTheme = merge(lightTheme(), {
   blurs: {
     modalOverlay: "blur(10px)",
   },
@@ -93,7 +102,7 @@ export const WalletProvider: FC<AppWebProviderProps> = ({ children }) => {
     <WagmiConfig config={config}>
       <RainbowKitProvider
         theme={rainbowKitTheme}
-        modalSize="compact"
+        modalSize="wide"
         chains={chains}>
         <WalletProviderContent>{children}</WalletProviderContent>
       </RainbowKitProvider>
@@ -116,6 +125,7 @@ export const WalletProviderContent: FC<AppWebProviderProps> = ({ children }) => 
       return error;
     }
   };
+  console.log(chain, "chain");
   const contextValue: WalletContextType = {
     chainId: chain?.id,
     isConnected,

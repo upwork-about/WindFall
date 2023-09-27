@@ -30,6 +30,9 @@ export type NetworkConfig = {
     ensUniversalResolver?: Contract;
     multicall3?: Contract;
   };
+  address?: {
+    [key: string]: Address;
+  };
   /** Flag for test networks */
   testnet?: boolean;
 };

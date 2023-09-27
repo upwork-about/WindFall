@@ -24,7 +24,19 @@ const AppHeader: React.FC = () => {
           <div onClick={() => disconnect()}>{account}</div>
         ) : (
           <ConnectButton />
-          // <Button size="large" ghost onClick={() => openModal({ dom: <ConnectWalletModal /> })}>Connect</Button>
+          // <Button
+          //   size="large"
+          //   ghost
+          //   onClick={() =>
+          //     openModal({
+          //       dom: <ConnectWalletModal />,
+          //       modalProps: {
+          //         width: 800,
+          //       },
+          //     })
+          //   }>
+          //   Connect
+          // </Button>
         )}
       </div>
     </div>

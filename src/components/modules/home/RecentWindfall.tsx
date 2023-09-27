@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { Button, Input, Popover } from "antd";
 import style from "./index.module.scss";
