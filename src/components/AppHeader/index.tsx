@@ -7,6 +7,7 @@ import { useModalContext } from "../modal/useModalContext";
 import ConnectWalletModal from "./ConnectWalletModal";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useWallet } from "@/hooks/walletConnect";
+import { ellipsizeStr } from "@/utils";
 const AppHeader: React.FC = () => {
   const { account, isConnected, disconnect } = useWallet();
   const { openModal } = useModalContext();
@@ -20,8 +21,8 @@ const AppHeader: React.FC = () => {
         <h3>WINDFALL</h3>
       </div>
       <div className="connect-wrap">
-        {isConnected ? (
-          <div onClick={() => disconnect()}>{account}</div>
+        {account ? (
+          <div onClick={() => disconnect()}>{ellipsizeStr(account, 6, 4)}</div>
         ) : (
           <ConnectButton />
           // <Button

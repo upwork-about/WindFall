@@ -40,7 +40,7 @@ export const CHAIN_CONFIG: Record<ChainId, NetworkConfig> = {
   [ChainId.Canto]: {
     ...canto,
     address: {
-      tokenProvider: "0xA631523aC0Aa65dDB8E3a13eBc5B00A66C0CC8d7",
+      tokenProvider: "0x5A057E35f8Bb1e896853a8dB40ac002153ac9a4A",
       stakeProvider: "0xEB0a4E999DC0AB2cFD1b39202B3BD6973c0989DC",
     },
   },
