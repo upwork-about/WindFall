@@ -4,10 +4,10 @@ import { Button, Input, Popover } from "antd";
 import style from "./index.module.scss";
 import TableList from "@/components/TableList";
 import { useMyResponsive } from "@/hooks/useMyResponsive";
-import { useContract } from "@/hooks/contract/useContract";
+import useStakeData from "@/hooks/contract/useStakeData";
 const CantoDeposit: React.FC = () => {
   const responsive = useMyResponsive();
-  const { recentWindfall } = useContract();
+  const { recentWindfall } = useStakeData();
 
   const columns = [
     {

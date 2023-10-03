@@ -5,12 +5,12 @@ import {
   useNetwork,
   useAccount,
   useSwitchNetwork,
-  createConfig,
   useDisconnect,
-  usePublicClient,
-  useWalletClient,
   configureChains,
   WagmiConfig,
+  createClient,
+  useSigner,
+  useProvider,
 } from "wagmi";
 
 import "@rainbow-me/rainbowkit/styles.css";
@@ -34,7 +34,7 @@ interface WalletContextType {
   isConnected: boolean;
 
   // the switch chain method we should use across the app
-  switchChain: (chainId: ChainId) => { error: string } | undefined;
+  switchChain: (chainId: ChainId) => Promise<{ error?: string }>;
   disconnect: () => void;
   /**
    * the signer, which WebProvider.getSigner returns
@@ -64,7 +64,7 @@ type AppWebProviderProps = {
   children: React.ReactNode;
 };
 
-const { chains, publicClient, webSocketPublicClient } = configureChains(
+const { chains, provider, webSocketProvider } = configureChains(
   isDev ? [CHAIN_CONFIG[ChainId.CantoTestnet]] : [canto],
   [publicProvider()]
 );
@@ -84,11 +84,11 @@ const connectors = connectorsForWallets([
   },
 ]);
 
-const config = createConfig({
+const client = createClient({
   autoConnect: true,
   connectors: connectors,
-  publicClient,
-  webSocketPublicClient,
+  provider,
+  webSocketProvider,
 });
 
 const rainbowKitTheme = merge(lightTheme(), {
@@ -99,7 +99,7 @@ const rainbowKitTheme = merge(lightTheme(), {
 
 export const WalletProvider: FC<AppWebProviderProps> = ({ children }) => {
   return (
-    <WagmiConfig config={config}>
+    <WagmiConfig client={client}>
       <RainbowKitProvider
         theme={rainbowKitTheme}
         modalSize="wide"
@@ -111,16 +111,16 @@ export const WalletProvider: FC<AppWebProviderProps> = ({ children }) => {
 };
 export const WalletProviderContent: FC<AppWebProviderProps> = ({ children }) => {
   const { address, isConnected } = useAccount();
-  const { switchNetwork } = useSwitchNetwork();
+  const { switchNetworkAsync } = useSwitchNetwork();
   const { chain } = useNetwork();
-  const { data: signer, isError } = useWalletClient();
+  const { data: signer, isError } = useSigner();
   const { disconnect } = useDisconnect();
-  const provider = usePublicClient();
+  const provider = useProvider();
 
-  const switchChain = (chainId: ChainId) => {
+  const switchChain = async (chainId: ChainId) => {
     try {
-      switchNetwork?.(chainId);
-      return;
+      await switchNetworkAsync?.(chainId);
+      return {};
     } catch (e: any) {
       return error;
     }

@@ -1,11 +1,11 @@
 import React from "react";
 import TableList from "@/components/TableList";
 import Timer from "./Timer";
-import { useContract } from "@/hooks/contract/useContract";
+import useStakeData from "@/hooks/contract/useStakeData";
 import { useModalContext } from "@/components/modal/useModalContext";
 import DepositModal from "./modal/DepositModal";
 const TokenTable: React.FC = () => {
-  const { tokenTableData } = useContract();
+  const { tokenTableData } = useStakeData();
   const { openModal } = useModalContext();
   const columns = [
     {

@@ -1,38 +1,27 @@
 export const abi = [
   {
     inputs: [],
-    name: "dayCounter",
+    name: "drawCounter",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "getStakedAmounts",
+    name: "getPastDataArrays",
     outputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getWinningAmounts",
-    outputs: [
-      { internalType: "uint256", name: "", type: "uint256" },
-      { internalType: "uint256", name: "", type: "uint256" },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "retrievePastData",
-    outputs: [
-      { internalType: "address[7]", name: "", type: "address[7]" },
       { internalType: "uint256[7]", name: "", type: "uint256[7]" },
+      { internalType: "uint256[7]", name: "", type: "uint256[7]" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "bool", name: "condition", type: "bool" }],
+    name: "getWinningAmount",
+    outputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "uint256", name: "", type: "uint256" },
     ],
     stateMutability: "view",
     type: "function",
