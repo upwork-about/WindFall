@@ -115,6 +115,7 @@ export const WalletProviderContent: FC<AppWebProviderProps> = ({ children }) => 
   const { chain } = useNetwork();
   const { data: signer, isError } = useSigner();
   const { disconnect } = useDisconnect();
+
   const provider = useProvider();
 
   const switchChain = async (chainId: ChainId) => {

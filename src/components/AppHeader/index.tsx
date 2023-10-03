@@ -24,20 +24,20 @@ const AppHeader: React.FC = () => {
         {account ? (
           <div onClick={() => disconnect()}>{ellipsizeStr(account, 6, 4)}</div>
         ) : (
-          <ConnectButton />
-          // <Button
-          //   size="large"
-          //   ghost
-          //   onClick={() =>
-          //     openModal({
-          //       dom: <ConnectWalletModal />,
-          //       modalProps: {
-          //         width: 800,
-          //       },
-          //     })
-          //   }>
-          //   Connect
-          // </Button>
+          // <ConnectButton />
+          <Button
+            size="large"
+            ghost
+            onClick={() =>
+              openModal({
+                dom: <ConnectWalletModal />,
+                modalProps: {
+                  width: 800,
+                },
+              })
+            }>
+            Connect
+          </Button>
         )}
       </div>
     </div>

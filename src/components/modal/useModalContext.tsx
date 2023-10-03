@@ -44,9 +44,7 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }}>
       {children}
 
-      <WrapModal modalProps={args.modalProps}>
-        {args.dom ? args.dom : null}
-      </WrapModal>
+      <WrapModal modalProps={args.modalProps}>{args.dom ? args.dom : null}</WrapModal>
     </ModalContext.Provider>
   );
 };

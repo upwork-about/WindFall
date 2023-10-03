@@ -4,20 +4,21 @@ import { CHAIN_CONFIG, ChainId } from "@/config";
 import { useWallet } from "../walletConnect";
 import { abi } from "./abi";
 import useSWR from "swr";
-import { utils } from "ethers";
+import { utils, Contract } from "ethers";
 
 export default function useStakeData() {
   const { account, chainId, signer } = useWallet();
   const stakeProvider = chainId ? CHAIN_CONFIG[chainId as ChainId]?.address?.stakeProvider : undefined;
+  console.log(chainId, "chainId12");
   const { data: contractData } = useSWR(
-    stakeProvider ? ["stakeContract", stakeProvider] : null,
+    chainId && stakeProvider ? ["stakeContract", stakeProvider] : null,
     (key: string, stakeProvider: EthereumAddress) => getContract(stakeProvider!)
   );
 
   const getContract = async (address: EthereumAddress) => {
     let contract;
     try {
-      contract = new ethers.Contract(address, abi, signer);
+      contract = new Contract(address, abi, signer);
     } catch (error) {
       console.log(error, "error");
     }
@@ -27,9 +28,10 @@ export default function useStakeData() {
       const drawCounter = await contract?.drawCounter();
       const pastData = await contract?.getPastDataArrays();
       const winningAmount = await contract?.getWinningAmount(true);
-      console.log(drawCounter, pastData, winningAmount, "drawCounter, pastData, winningAmount");
+      const stakeAmount = await contract?.getWinningAmount(false);
+      console.log(drawCounter, pastData, winningAmount, stakeAmount, "drawCounter, pastData, winningAmount");
       const recentWindfall = getRecentWindfallData({ drawCounter, pastData });
-      const tokenTableData = getTokenTableData({ winningAmount });
+      const tokenTableData = getTokenTableData({ winningAmount, stakeAmount });
       return { contract, drawCounter, pastData, winningAmount, recentWindfall, tokenTableData };
     } catch (e) {
       console.log(e, "eee");
@@ -48,7 +50,7 @@ export default function useStakeData() {
       } else {
         currentDate.setDate(currentDate.getDate() - i);
       }
-
+      console.log(pastData[0]?.[i], parseFloat(utils?.formatEther(pastData[1]?.[i])), "pastData[0]?.[i]");
       let formattedDate = currentDate.toLocaleDateString("en-US", {
         month: "long",
         day: "numeric",
@@ -57,9 +59,8 @@ export default function useStakeData() {
       let item = {
         title: (drawCounter + i - 1) % 7 === 0 ? "WEEKLY" : "DAILY",
         date: formattedDate,
-        // nft: pastData[0]?.[i].string() + "..." + pastData[0]?.[i].string(),
-        nft: "",
-        amount: pastData[1]?.[i] ? parseFloat(utils?.formatEther(pastData[1]?.[i])).toPrecision(3) : 0,
+        nft: pastData[0]?.[i].toString(),
+        amount: pastData[1]?.[i] ? pastData[1]?.[i].toString() : 0,
       };
       recentWindfall.push(item);
     }
@@ -67,13 +68,13 @@ export default function useStakeData() {
     return recentWindfall;
   };
 
-  const getTokenTableData = ({ winningAmount }: any) => {
+  const getTokenTableData = ({ winningAmount, stakeAmount }: any) => {
     const networkList = ["CANTO", "Ethereum", "Matic"];
     const list = networkList.map((item) => {
       return item === "CANTO"
         ? {
             token: item,
-            deposit: winningAmount[1] ? parseFloat(utils.formatEther(winningAmount[1])).toPrecision(4) : 0,
+            deposit: stakeAmount[1] ? parseFloat(utils.formatEther(stakeAmount[1])).toPrecision(4) : 0,
             daily: winningAmount[1] ? parseFloat(utils.formatEther(winningAmount[1])).toPrecision(4) : 0,
             super: winningAmount[0] ? parseFloat(utils.formatEther(winningAmount[0])).toPrecision(4) : 0,
           }

@@ -1,22 +1,32 @@
-import React from "react";
-import { Button, Input, Popover, Radio } from "antd";
+import React, { useState } from "react";
+import { Button, Input, Popover, Radio, message } from "antd";
 import style from "./index.module.scss";
 import { useAccount, useConnect } from "wagmi";
 import { InjectedConnector } from "@wagmi/core";
+import { useModalContext } from "../modal/useModalContext";
 const ConnectWalletModal: React.FC = () => {
   const { address, isConnected } = useAccount();
+  const { closeModal } = useModalContext();
+  const [isCheck, setIsCheck] = useState(false);
 
   const { connect } = useConnect({
     connector: new InjectedConnector(),
   });
   const connectWallet = () => {
+    if (!isCheck) {
+      message.error("please check the terms");
+      return;
+    }
     connect();
+    closeModal();
   };
   return (
     <div className={style["connect-wallet-modal"]}>
       <h4>Connect your wallet</h4>
       <div className="label-wrap">
-        <div className={`radio ${address ? "active" : ""}`}>
+        <div
+          className={`radio ${isCheck ? "active" : ""}`}
+          onClick={() => setIsCheck(!isCheck)}>
           <div className="radio-inner"></div>
         </div>
         <p>
